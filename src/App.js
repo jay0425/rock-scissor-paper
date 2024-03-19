@@ -1,5 +1,6 @@
 import './App.css';
 import Box from './component/Box';
+import { useState } from 'react';
 
 /*
 
@@ -12,17 +13,40 @@ import Box from './component/Box';
 
 */
 
+const choice = {
+  rock: {
+    name: 'Rock',
+    img: 'https://nationaltoday.com/wp-content/uploads/2021/08/National-Pet-Rock-Day-1200x834.jpg',
+  },
+  scissors: {
+    name: 'Scissors',
+    img: 'https://kr.element14.com/productimages/standard/en_GB/TL15160-40.jpg',
+  },
+  paper: {
+    name: 'Paper',
+    img: 'https://www.collinsdictionary.com/images/full/paper_111691001.jpg',
+  },
+};
+
 function App() {
+  const [userSelect, setUserSelect] = useState(null);
+
+  const play = (userChoice) => {
+    setUserSelect(choice[userChoice]);
+    console.log(userSelect);
+  };
+
   return (
     <div>
       <div className="main">
-        <Box title="You" />
-        <Box title="Computer" />
+        <Box title="You" item={userSelect} />
+        {/* <Box title="Computer" /> */}
       </div>
       <div className="main">
-        <button>가위</button>
-        <button>바위</button>
-        <button>보</button>
+        {/* 함수를 콜백함수로 넣어줘야 한다. 그냥 함수만 넣으면 바로 실행이 되어 버린다. */}
+        <button onClick={() => play('scissors')}>가위</button>
+        <button onClick={() => play('rock')}>바위</button>
+        <button onClick={() => play('paper')}>보</button>
       </div>
     </div>
   );

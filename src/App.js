@@ -30,17 +30,37 @@ const choice = {
 
 function App() {
   const [userSelect, setUserSelect] = useState(null);
+  const [computerSelect, setComputerSelect] = useState(null);
+  const [result, setResult] = useState('');
 
   const play = (userChoice) => {
     setUserSelect(choice[userChoice]);
-    console.log(userSelect);
+    let computerChoice = randomChoice();
+    setComputerSelect(computerChoice);
+    setResult(judgement(choice[userChoice], computerChoice));
+  };
+
+  const judgement = (user, computer) => {
+    if (user.name === computer.name) {
+      return 'tie';
+    } else if (user.name === 'Rock') return computer.name === 'Scissors' ? 'win' : 'lose';
+    else if (user.name === 'Scissors') return computer.name === 'Paper' ? 'win' : 'lose';
+    else if (user.name === 'Paper') return computer.name === 'Rock' ? 'win' : 'lose';
+  };
+
+  const randomChoice = () => {
+    let itemArray = Object.keys(choice); // 객체의 키값만 뽑아서 배열로 만들어주는 함수
+    let randomItem = Math.floor(Math.random() * itemArray.length); // 랜덤으로 0 1 2 값을 뽑는다.
+    let final = itemArray[randomItem]; // 위에서 만든 랜덤 번호를 객체 키값을 뽑아 만든 배열 인덱스 번호로 넣는다.
+    console.log(final); // 객체 키값이 나온다.
+    return choice[final];
   };
 
   return (
     <div>
       <div className="main">
-        <Box title="You" item={userSelect} />
-        {/* <Box title="Computer" /> */}
+        <Box title="You" item={userSelect} result={result} />
+        <Box title="Computer" item={computerSelect} result={result} />
       </div>
       <div className="main">
         {/* 함수를 콜백함수로 넣어줘야 한다. 그냥 함수만 넣으면 바로 실행이 되어 버린다. */}
